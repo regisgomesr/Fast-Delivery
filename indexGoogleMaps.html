@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <title>Google Maps API v3: Criando rotas</title>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css">
+    </head>
+ 
+    <body>
+    	<div id="site">
+        
+        	<h1>Google Maps API v3: Criando rotas</h1>
+        
+            <form method="post" action="indexGoogleMaps.html">
+                <fieldset>
+                    <legend>Criar rotas</legend>
+                    
+                    <div>
+                        <label for="txtStartingPoint">Endereço de partida:</label>
+                        <input type="text" id="txtStartingPoint" name="txtStartingPoint" />
+                    </div>
+                    
+                    <div>
+                        <label for="txtDestinationPoint">Endereço de chegada:</label>
+                        <input type="text" id="txtDestinationPoint" name="txtDestinationPoint" />
+                    </div>
+                    
+                    <div>
+                        <input type="submit" id="btnSubmit" name="btnSubmit" value="Enviar" />
+                    </div>
+                </fieldset>
+            </form>
+        
+            <div id="map"></div>
+            
+            <div id="text-path"></div>
+        
+        </div>
+
+        <script src="js/jquery.min.js"></script>
+		
+        <!-- Maps API Javascript -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKo8n5wEu2yZFfQV9hRTnSSNy5lWZ7pmM&callback=myMap"></script>
+
+ 
+        <!-- Arquivo de inicialização do mapa -->
+		<script src="js/map.js"></script>
+    </body>
+</html>
