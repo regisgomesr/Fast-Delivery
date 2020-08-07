@@ -11,8 +11,8 @@ import Api from '../../service/Api'
 export default function* rootSaga() {
 
     const devURL = 'http://localhost:3001'
-    const prodURL = 'http://api.fastdelivery.com'
-    const baseURL = process.env.REACT_APP_API_URL === 'development' ? devURL : prodURL
+    const prodURL = 'https://run-server-fast-delivery.herokuapp.com/'
+    const baseURL = process.env.NODE_ENV === 'development' ? devURL : prodURL
 
     const api = new Api(baseURL)
 
