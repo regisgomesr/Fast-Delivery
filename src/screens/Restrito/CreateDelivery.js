@@ -79,11 +79,11 @@ class CreateDelivery extends Component{
 
                         <InputMoment
                             moment={this.state.date}
-                            onChange={(val) => this.setState({ date: val })} 
+                            onChange={(val) => this.setState({ date: val })}
                         />
 
                         <div>
-                            <Button inverted color='blue' size='big' onClick={this.handleSave}>Salvar Entrega</Button> 
+                            <Button inverted color='blue' size='big' onClick={this.handleSave}>Salvar Entrega</Button>
                         </div>
                     </Form>
                 }
