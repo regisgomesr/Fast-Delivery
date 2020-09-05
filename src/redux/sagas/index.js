@@ -2,7 +2,7 @@ import { takeLatest, all, put } from 'redux-saga/effects'
 import { Types } from '../actionCreators'
 import ActionCreators from '../actionCreators'
 
-import { getDeliveries, createDelivery } from './deliveries'
+import { getDeliveries, getDelivery, createDelivery } from './deliveries'
 import { auth, login, createProfile, destroyAuth } from './auth'
 import { getUser } from './users'
 import Api from '../../service/Api'
@@ -20,6 +20,7 @@ export default function* rootSaga() {
         takeLatest(Types.SIGNIN_REQUEST, login({ api })),
         takeLatest(Types.AUTH_REQUEST, auth({ api })),
         takeLatest(Types.GET_DELIVERIES_REQUEST, getDeliveries({ api })),
+        takeLatest(Types.GET_DELIVERY_REQUEST, getDelivery({ api })),
         takeLatest(Types.CREATE_DELIVERY_REQUEST, createDelivery({ api })),
         takeLatest(Types.CREATE_PROFILE_REQUEST, createProfile({ api })),
         takeLatest(Types.GET_USER_REQUEST, getUser({ api })),

@@ -1,34 +1,54 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import ActionCreators from '../../redux/actionCreators'
 import { connect } from 'react-redux'
 import { Table, Button, Segment, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { withScriptjs } from 'react-google-maps'
 
 import DateStr from '../elements/DateStr'
+import Routes from './Routes'
+// import Map from './Map'
+
+// const MapLoader = withScriptjs(Map)
+
+
 
 class Deliveries extends Component{
+    constructor(props) {
+        super(props)
+        this.state = {
+            route: false
+        }
+    }
+    
+
     componentDidMount(){
         this.props.load()
-        console.log(this.props.auth)
+        // console.log(this.props.auth)
+        console.log(this.props.deliveries.data)
     }
 
-    renderDelivery = (delivery) => {
+    
+    renderDelivery = delivery => {
+
         return(
             <Table.Row key={delivery.id}>
                 <Table.Cell>
                   {delivery.name_client}
                 </Table.Cell>
                 <Table.Cell>
-                  {delivery.starting_point}   
+                  {delivery.starting_point}
                 </Table.Cell>
                 <Table.Cell>
                   {delivery.destination_point}
                 </Table.Cell>
                 <Table.Cell>
-                    {delivery.date}
+                  {delivery.date}
                 </Table.Cell>
                 <Table.Cell>
-                  <Button inverted color='red'>Rota</Button>
+                  <Button inverted color='red' 
+                    onClick={() => this.setState({ route: true })} 
+                    as={Link} to={`/restrito/deliveries/${delivery.id}/route`}>Rota</Button>
                 </Table.Cell>
             </Table.Row>
         )
@@ -73,7 +93,12 @@ class Deliveries extends Component{
                     </Table>
                 }
 
-                <div id='map'></div>
+
+                {
+                    this.state.route &&
+                        <Routes/>
+                }
+
 
             </div>
         )
@@ -89,8 +114,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        load: () => dispatch(ActionCreators.getDeliveriesRequest(false)),
-        create: (delivery) => dispatch(ActionCreators.createDeliveryRequest(delivery)),
+        load: () => dispatch(ActionCreators.getDeliveriesRequest()),
+        create: (delivery) => dispatch(ActionCreators.createDeliveryRequest(delivery))
     }
 }
 

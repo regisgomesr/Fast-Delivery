@@ -6,6 +6,8 @@ import Header from './elements/Header'
 import Home from './Home'
 import Deliveries from './Deliveries'
 import CreateDelivery from './CreateDelivery'
+import Map from './Map'
+import Routes from './Routes'
 
 const Restrito = props => {
     console.log(props.auth)
@@ -21,7 +23,8 @@ const Restrito = props => {
         <div>
             <Header />
             <Route path={`${props.match.path}/`} exact component={Home} />
-            <Route path={`${props.match.path}/deliveries`} component={Deliveries} />
+            <Route path={`${props.match.path}/deliveries/:id/route`} exact component={Map} />
+            <Route path={`${props.match.path}/deliveries`} exact component={Deliveries} />
             <Route path={`${props.match.path}/create-delivery`} component={CreateDelivery} />
         </div>
     )

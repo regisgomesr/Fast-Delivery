@@ -29,6 +29,10 @@ export const {
   getDeliveriesSuccess: ['deliveries'],
   getDeliveriesFailure: null,
 
+  getDeliveryRequest: ['id'],
+  getDeliverySuccess: ['delivery'],
+  getDeliveryFailure: null,
+
   createProfileRequest: ['user'],
   createProfileSuccess: ['user'],
   createProfileFailure: ['error'],

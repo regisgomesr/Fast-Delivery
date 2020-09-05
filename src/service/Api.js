@@ -22,6 +22,7 @@ const Api = base => {
     return {
         getUser: id => get(`/users/${id}`),
 
+        getDelivery: id => get(`/deliveries/${id}`),
         getDeliveries: () => get(`/deliveries/`),
         createDelivery: data => create(`/deliveries/`, data),
 

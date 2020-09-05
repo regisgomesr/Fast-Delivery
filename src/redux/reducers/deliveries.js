@@ -7,7 +7,28 @@ export const INITIAL_STATE = {
     isSaving: false,
     saved: false,
     data: [],
+    delivery: {},
     error: ''
+}
+
+export const getDeliveryRequest = (state = INITIAL_STATE, action) => {
+  return {
+      ...state,
+      isLoading: true
+  }
+}
+export const getDeliverySuccess = (state = INITIAL_STATE, action) => {
+  return {
+      ...state,
+      isLoading: false,
+      delivery: action.delivery
+  }
+}
+export const getDeliveryFailure = (state = INITIAL_STATE, action) => {
+  return {
+      ...state,
+      isLoading: false
+  }
 }
 
 export const getDeliveriesRequest = (state = INITIAL_STATE, action) => {
@@ -72,6 +93,10 @@ export const HANDLERS = {
 
   [Types.GET_DELIVERIES_REQUEST]: getDeliveriesRequest,
   [Types.GET_DELIVERIES_SUCCESS]: getDeliveriesSuccess,
-  [Types.GET_DELIVERIES_FAILURE]: getDeliveriesFailure
+  [Types.GET_DELIVERIES_FAILURE]: getDeliveriesFailure,
+
+  [Types.GET_DELIVERY_REQUEST]: getDeliveryRequest,
+  [Types.GET_DELIVERY_SUCCESS]: getDeliverySuccess,
+  [Types.GET_DELIVERY_FAILURE]: getDeliveryFailure
 }
 export default createReducer(INITIAL_STATE, HANDLERS)
