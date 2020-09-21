@@ -23,7 +23,6 @@ class Map extends Component {
 componentDidMount() {
     this.props.load(this.props.match.params.id)
     console.log(this.props.deliveries.data)
-    // console.log(this.props)
     console.log(this.props.match.params.id)
 
     const directionsService = new window.google.maps.DirectionsService()
@@ -70,12 +69,13 @@ handleRoute = (delivery) => {
         Geocoder.setApiKey(GOOGLE_MAPS_APIKEY); // use a valid API key
 
         Geocoder.fromAddress(`${oneDelivery[0].starting_point}`)
-            .then( response => {
+            .then( async response => {
                 const { lat, lng } = response.results[0].geometry.location;
                 const latFloat = parseFloat(lat)
                 const lngFloat = parseFloat(lng)
                 console.log('Lat Origem: ' + latFloat, 'Lng Origem: ' + lngFloat)
-                this.setState({ origin: { latitude: latFloat, longitude: lngFloat } })
+                await this.setState({ origin: { latitude: latFloat, longitude: lngFloat } })
+
             })
             .catch(error => console.warn(error))
     }
@@ -88,12 +88,12 @@ handleRoute = (delivery) => {
         Geocoder.setApiKey(GOOGLE_MAPS_APIKEY); // use a valid API key
 
         Geocoder.fromAddress(`${oneDelivery[0].destination_point}`)
-            .then( response => {
+            .then( async response => {
                 const { lat, lng } = response.results[0].geometry.location;
                 const latFloat = parseFloat(lat)
                 const lngFloat = parseFloat(lng)
                 console.log('Lat Destino: ' + latFloat, 'Lng Destino: ' + lngFloat)
-                this.setState({ destination: { latitude: latFloat, longitude: lngFloat } })
+                await this.setState({ destination: { latitude: latFloat, longitude: lngFloat } })
             })
             .catch(error => console.warn(error))
     }
