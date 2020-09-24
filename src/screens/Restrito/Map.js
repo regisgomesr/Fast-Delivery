@@ -1,23 +1,26 @@
 /*global google*/
 import React, { Component } from 'react'
-import ActionCreators from '../../redux/actionCreators'
 import { connect } from 'react-redux'
 import {
     withGoogleMap,
-    withScriptjs,
     GoogleMap,
     DirectionsRenderer
 } from 'react-google-maps'
 import Geocoder from 'react-geocode'
 
+import ActionCreators from '../../redux/actionCreators'
+
 const GOOGLE_MAPS_APIKEY = 'AIzaSyDZgYbbBa49qSvG4vz0P3L967JGuRI1fcA'
 
+
+const directionsService = new window.google.maps.DirectionsService()
 
 class Map extends Component {
     state = {
         directions: null,
         origin: { latitude: 0, longitude: 0 },
         destination: { latitude: 0, longitude: 0 }
+
     }
 
 componentDidMount() {
@@ -25,10 +28,10 @@ componentDidMount() {
     console.log(this.props.deliveries.data)
     console.log(this.props.match.params.id)
 
-    const directionsService = new window.google.maps.DirectionsService()
-    
     this.handleRoute(this.props.deliveries.data)
-    
+}
+
+componentDidUpdate() {
 
     directionsService.route(
         {
@@ -37,44 +40,48 @@ componentDidMount() {
             travelMode: window.google.maps.TravelMode.DRIVING
         },
         (result, status) => {
+            console.log('Result: ' + result);
+            console.log('Status: ' + status);
             if (status === window.google.maps.DirectionsStatus.OK) {
                 console.log('Resultado :' + result)
                 this.setState({
                     directions: result
                 });
             } else {
-                console.error(`error fetching directions ${result}`);
+                console.error(`error fetching directions ${result}`)
             }
         }
     );
 
+    console.log(this.state.origin);
+    console.log(this.state.destination);
+    console.log(this.state.directions);
 }
 
+handleRoute = (deliveries) => {
 
-handleRoute = (delivery) => {
+    console.log('Função handle chamada!')
+    console.log(deliveries)
 
-    console.log('Função handle chamada!');
-    console.log(delivery)
-
-    var oneDelivery = delivery.filter((delivery) => {
+    const oneDelivery = deliveries.filter((delivery) => {
         return delivery.id == this.props.match.params.id
     })
 
     console.log(oneDelivery[0])
-    console.log(oneDelivery[0].starting_point);
-    console.log(oneDelivery[0].destination_point);
+    console.log(oneDelivery[0].starting_point)
+    console.log(oneDelivery[0].destination_point)
     
     if(oneDelivery[0].starting_point != '') {
 
-        Geocoder.setApiKey(GOOGLE_MAPS_APIKEY); // use a valid API key
+        Geocoder.setApiKey(GOOGLE_MAPS_APIKEY) // use a valid API key
 
         Geocoder.fromAddress(`${oneDelivery[0].starting_point}`)
-            .then( async response => {
+            .then( response => {
                 const { lat, lng } = response.results[0].geometry.location;
                 const latFloat = parseFloat(lat)
                 const lngFloat = parseFloat(lng)
                 console.log('Lat Origem: ' + latFloat, 'Lng Origem: ' + lngFloat)
-                await this.setState({ origin: { latitude: latFloat, longitude: lngFloat } })
+                this.setState({ origin: { latitude: latFloat, longitude: lngFloat } })
 
             })
             .catch(error => console.warn(error))
@@ -88,21 +95,19 @@ handleRoute = (delivery) => {
         Geocoder.setApiKey(GOOGLE_MAPS_APIKEY); // use a valid API key
 
         Geocoder.fromAddress(`${oneDelivery[0].destination_point}`)
-            .then( async response => {
-                const { lat, lng } = response.results[0].geometry.location;
+            .then( response => {
+                const { lat, lng } = response.results[0].geometry.location
                 const latFloat = parseFloat(lat)
                 const lngFloat = parseFloat(lng)
                 console.log('Lat Destino: ' + latFloat, 'Lng Destino: ' + lngFloat)
-                await this.setState({ destination: { latitude: latFloat, longitude: lngFloat } })
+                this.setState({ destination: { latitude: latFloat, longitude: lngFloat } })
             })
             .catch(error => console.warn(error))
     }
     else {
         alert("Digite o destino ! ")
     }
-
 }
-
 
 render() {
   const GoogleMapExample = withGoogleMap(props => (

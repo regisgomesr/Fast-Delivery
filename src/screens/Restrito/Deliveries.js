@@ -1,33 +1,25 @@
-import React, { Component, useState } from 'react'
-import ActionCreators from '../../redux/actionCreators'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table, Button, Segment, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withScriptjs } from 'react-google-maps'
 
-import DateStr from '../elements/DateStr'
-import Routes from './Routes'
-// import Map from './Map'
+import Map from './Map'
+import ActionCreators from '../../redux/actionCreators'
 
-// const MapLoader = withScriptjs(Map)
-
+const MapLoader = withScriptjs(Map)
 
 
 class Deliveries extends Component{
-    constructor(props) {
-        super(props)
-        this.state = {
+        state = {
             route: false
         }
-    }
-    
 
     componentDidMount(){
         this.props.load()
         // console.log(this.props.auth)
         console.log(this.props.deliveries.data)
     }
-
     
     renderDelivery = delivery => {
 
@@ -92,14 +84,13 @@ class Deliveries extends Component{
                         </Table.Body>
                     </Table>
                 }
-
-
                 {
                     this.state.route &&
-                        <Routes/>
+                    <MapLoader
+                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZgYbbBa49qSvG4vz0P3L967JGuRI1fcA"
+                        loadingElement={<div style={{ height: `100%` }} />}
+                    />
                 }
-
-
             </div>
         )
     }
