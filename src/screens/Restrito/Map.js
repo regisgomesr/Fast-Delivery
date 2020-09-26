@@ -13,14 +13,14 @@ import ActionCreators from '../../redux/actionCreators'
 const GOOGLE_MAPS_APIKEY = 'AIzaSyDZgYbbBa49qSvG4vz0P3L967JGuRI1fcA'
 
 
-const directionsService = new window.google.maps.DirectionsService()
+
 
 class Map extends Component {
     state = {
         directions: null,
-        origin: { latitude: 0, longitude: 0 },
-        destination: { latitude: 0, longitude: 0 }
-
+        origin: { lat: 0, lng: 0 },
+        destination: { lat: 0, lng: 0 },
+        route: false
     }
 
 componentDidMount() {
@@ -29,20 +29,39 @@ componentDidMount() {
     console.log(this.props.match.params.id)
 
     this.handleRoute(this.props.deliveries.data)
+
+    // console.log('DidMount Route: ==> ' + this.state.route)
+
+    // if ( this.state.route === true) {
+
+    // this.setDirection()
+    // }
+
+    console.log('passou sem esperar o handleRoute, FIM!');
+
 }
 
-componentDidUpdate() {
+// shouldComponentUpdate(newProps, newState){
+//     return newState.directions !== this.state.directions;
+
+//   }
+
+componentDidUpdate(){
+    
+    console.log('Update chamado!')
+
+    const directionsService = new window.google.maps.DirectionsService()
 
     directionsService.route(
         {
             origin: this.state.origin,
             destination: this.state.destination,
-            travelMode: window.google.maps.TravelMode.DRIVING
+            travelMode: google.maps.TravelMode.DRIVING
         },
         (result, status) => {
             console.log('Result: ' + result);
             console.log('Status: ' + status);
-            if (status === window.google.maps.DirectionsStatus.OK) {
+            if (status === google.maps.DirectionsStatus.OK) {
                 console.log('Resultado :' + result)
                 this.setState({
                     directions: result
@@ -53,14 +72,11 @@ componentDidUpdate() {
         }
     );
 
-    console.log(this.state.origin);
-    console.log(this.state.destination);
-    console.log(this.state.directions);
 }
 
 handleRoute = (deliveries) => {
 
-    console.log('Função handle chamada!')
+    console.log('Função handleRoute chamada!')
     console.log(deliveries)
 
     const oneDelivery = deliveries.filter((delivery) => {
@@ -77,11 +93,13 @@ handleRoute = (deliveries) => {
 
         Geocoder.fromAddress(`${oneDelivery[0].starting_point}`)
             .then( response => {
-                const { lat, lng } = response.results[0].geometry.location;
+                const { lat, lng } = response.results[0].geometry.location
                 const latFloat = parseFloat(lat)
                 const lngFloat = parseFloat(lng)
-                console.log('Lat Origem: ' + latFloat, 'Lng Origem: ' + lngFloat)
-                this.setState({ origin: { latitude: latFloat, longitude: lngFloat } })
+                
+                this.setState({ origin: { lat: latFloat, lng: lngFloat } })
+                // origin = { lat: latFloat, lng: lngFloat };
+                console.log('Lat Origem: ' + this.state.origin.lat, 'Lng Origem: ' + this.state.origin.lng)
 
             })
             .catch(error => console.warn(error))
@@ -99,8 +117,14 @@ handleRoute = (deliveries) => {
                 const { lat, lng } = response.results[0].geometry.location
                 const latFloat = parseFloat(lat)
                 const lngFloat = parseFloat(lng)
-                console.log('Lat Destino: ' + latFloat, 'Lng Destino: ' + lngFloat)
-                this.setState({ destination: { latitude: latFloat, longitude: lngFloat } })
+                
+                
+                this.setState({ destination: { lat: latFloat, lng: lngFloat } })
+                // destination = { lat: latFloat, lng: lngFloat };
+                console.log('Lat Destination: ' + this.state.destination.lat, 'Lng Destination: '
+                 + this.state.destination.lng)
+                this.setState({ route: true })
+                console.log(this.state.route)
             })
             .catch(error => console.warn(error))
     }
@@ -115,9 +139,11 @@ render() {
         defaultCenter={{ lat: parseFloat(-22.9099), lng:  parseFloat(-43.2095) }}
         defaultZoom={10}
       >
-          <DirectionsRenderer
-            directions={this.state.directions}
-          />
+      <DirectionsRenderer
+        directions={this.state.directions}
+      />
+        
+          
       </GoogleMap>
   ));
 

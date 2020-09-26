@@ -84,7 +84,7 @@ class Deliveries extends Component{
                         </Table.Body>
                     </Table>
                 }
-                {
+                 {
                     this.state.route &&
                     <MapLoader
                         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZgYbbBa49qSvG4vz0P3L967JGuRI1fcA"
