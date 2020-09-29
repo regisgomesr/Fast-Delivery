@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import ActionCreators from '../../redux/actionCreators'
 import { connect } from 'react-redux'
 import { Button, Segment, Form } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
-
 import moment from 'moment'
 import InputMoment from 'input-moment'
 import 'input-moment/dist/input-moment.css'
 
+import ActionCreators from '../../redux/actionCreators'
+import InputPlacesAutocomplete from './elements/InputPlacesAutocomplete'
 
 class CreateDelivery extends Component{
 
@@ -29,17 +29,30 @@ class CreateDelivery extends Component{
         })
     }
 
+    handleChangeAddressStart = (address) => {
+        this.setState({ starting_point: address });
+      };
+
+    handleChangeAddressDestination = (address) => {
+        this.setState({ destination_point: address });
+    };
+
     handleSave = () => {
 
-        const dtLocal = moment.tz(this.state.date, this.props.auth.user.timezone)
-        const dtFormatada = dtLocal.clone().utc().format('YYYY-MM-DD, H:mm:ss') // formato para salvar no BD
-        console.log(dtFormatada)
+        // const dtLocal = moment.tz(this.state.date, this.props.auth.user.timezone)
+        // const dtFormatada = dtLocal.clone().utc().format('YYYY-MM-DD, H:mm:ss') // formato para salvar no BD
+        // console.log(dtFormatada)
+
+        // console.log(this.state.name_client);
+        // console.log(this.state.starting_point);
+        // console.log(this.state.destination_point);
+        // console.log(this.state.date);
 
         this.props.create({
             name_client: this.state.name_client,
             starting_point: this.state.starting_point,
             destination_point: this.state.destination_point,
-            date: dtFormatada
+            date: this.state.date
         })
     }
 
@@ -65,12 +78,14 @@ class CreateDelivery extends Component{
                             <input type='text' value={this.state.name_client} onChange={this.handleChange('name_client')} />
                         </Form.Field>
                         <Form.Field>
+                            
                             <label >Ponto de Partida:</label>
-                            <input type='text' value={this.state.starting_point} onChange={this.handleChange('starting_point')} />
+                            <InputPlacesAutocomplete type='text' value={this.state.starting_point} changeAddressCallback={this.handleChangeAddressStart} />
+
                         </Form.Field>
                         <Form.Field>
                             <label>Ponto de Destino:</label>
-                            <input type='text' value={this.state.destination_point} onChange={this.handleChange('destination_point')} />
+                            <InputPlacesAutocomplete type='text' value={this.state.destination_point} changeAddressCallback={this.handleChangeAddressDestination} />
                         </Form.Field>
                         <Form.Field>
                             <label>Data da Entrega:</label>
