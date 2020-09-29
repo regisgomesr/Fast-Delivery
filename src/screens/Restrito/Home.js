@@ -1,17 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 
-const Home = props => {
+const Home = (props) => {
+  return <h1>Olá, {props.auth.user.name}.</h1>;
+};
 
-    return (
-        <h1>Olá, {props.auth.user.name}.</h1>
-    )
-}
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
 
-const mapStateToProps = state => {
-    return {
-        auth: state.auth
-    }
-  }
-
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(Home);

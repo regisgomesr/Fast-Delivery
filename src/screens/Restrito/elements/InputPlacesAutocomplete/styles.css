@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
-.input-suggestion{
-  font-family: 'Lato', sans-serif;
+.input-suggestion {
+  font-family: "Lato", sans-serif;
   width: 500px;
   height: 60px;
   background-color: white;

@@ -1,0 +1,29 @@
+.create-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 1120px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.create-container h1 {
+  display: flex;
+  align-items: center;
+
+  font-size: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.create-container form {
+  width: 70%;
+}
+
+.create-container .div-delivery-save {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
